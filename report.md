@@ -1,3 +1,5 @@
+# Report
+
 I started by breaking the project down into three functions, each performing one of the tasks described in the instructions: fetching, parsing, and output.
 
 For fetching, I used `requests` because it generally makes HTTP things easier. Processing is done in memory which works fine for the small file sizes but would need something with streaming or chunking to help manage memory for significantly larger file sizes.
@@ -8,7 +10,7 @@ For parsing, I used a series of splits (`splitlines`, `rsplit`, and `split`) to 
 bin/example libdevel/packageA,libdevel/packageB
 ```
 
-which seemed "backward". Writing the logic and adding explicit variables helped clarify the formatting and make it easier to follow.
+which seemed "backward". Writing the parsing logic and adding explicit variables helped clarify the formatting and make it easier to follow.
 
 For counting, I used `Counter` because it performs as well as a hash table but it's easier to use and read, especially coming back to it months later.
 
@@ -20,4 +22,4 @@ For main functionality, I wrapped everything in `main()` and then called that at
 
 For testing, I didn't go crazy with edge cases, just tested the things I wanted to make sure would work as expected, namely the parsing of `Contents`, getting accurate numbers, and handling malformatted lines.
 
-This documentation was, by far, the hardest part of the assignment. I'm okay with code, testing, and documentation in general, but framing my thoughts explicitly was new and I'm especially terrified of doing it all "wrong." I tried to "think out loud" and translate that into written form, I hope the result conveys the what and why effectively. 🤞
+This documentation was, by far, the hardest part of the assignment. I'm okay with code, testing, and documentation in general, but framing my thoughts explicitly was new and I'm rather nervous about doing everything "wrong." I tried to "think out loud" and translate that into written form, I hope the result conveys the what and why effectively. 🤞
