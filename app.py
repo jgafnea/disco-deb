@@ -6,6 +6,7 @@ import requests
 
 
 def get_contents(arch: str) -> str:
+    """Get contents (contents of Contents.gz) of given architecture."""
     BASE_URL = "https://deb.debian.org/debian/dists/stable/main"
     url = f"{BASE_URL}/Contents-{arch}.gz"
     try:
@@ -19,6 +20,7 @@ def get_contents(arch: str) -> str:
 
 
 def get_counts(contents: str) -> Counter:
+    """Get file counts of each package."""
     counts = Counter()
     # If no data, return empty counter.
     if contents == "":
@@ -37,6 +39,7 @@ def get_counts(contents: str) -> Counter:
 
 
 def show_top(counts: Counter, number: int = 10) -> None:
+    """Show top packages by file count."""
     top = counts.most_common(number)
     for i, (package, count) in enumerate(top, start=1):
         # Hacky solution to align columns with hardcoded widths.
