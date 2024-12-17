@@ -8,15 +8,22 @@ import requests
 def get_contents(arch: str) -> str:
     BASE_URL = "https://deb.debian.org/debian/dists/stable/main"
     url = f"{BASE_URL}/Contents-{arch}.gz"
-    response = requests.get(url)
-    response.raise_for_status()
-
-    contents_ = gzip.decompress(response.content).decode("utf-8")
-    return contents_
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        contents = gzip.decompress(response.content).decode("utf-8")
+        return contents
+    except Exception:
+        print(f"Error fetching url: {url}")
+        return ""
 
 
 def get_counts(contents: str) -> Counter:
     counts = Counter()
+    # If no data, return empty counter.
+    if contents == "":
+        return counts
+    # Otherwise, parse the data and count packages.
     for line in contents.splitlines():
         try:
             # bin/file packageA,packageB,packageC
@@ -24,7 +31,7 @@ def get_counts(contents: str) -> Counter:
             for package in packages.split(","):
                 counts[package] += 1
         except ValueError:
-            print("Error parsing line:\n", line)
+            print(f"Error parsing line: {line}")
             continue
     return counts
 
