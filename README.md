@@ -31,9 +31,11 @@ python app.py arm64
 
 ## Reportage
 
+I chose Python because it's normally what I use once tasks become too much for shell scripts.
+
 I started by breaking the project down into three functions, each performing one of the tasks described in the instructions: fetching, parsing, and output.
 
-For fetching, I used `requests` because it generally makes HTTP things easier. Processing is done in memory which works fine for the small file sizes but would need something with streaming or chunking to help manage memory for significantly larger file sizes.
+For fetching, I used `requests` because it generally makes HTTP things easier. Work is currently done in memory and works well given the small file sizes, but would need to be updated for significantly larger files.
 
 For parsing, I used a series of splits (`splitlines`, `rsplit`, and `split`) to break the contents down into lines and then into collections of files and associated packages. One challenge was mentally parsing lines like
 
@@ -41,17 +43,17 @@ For parsing, I used a series of splits (`splitlines`, `rsplit`, and `split`) to 
 bin/example libdevel/packageA,libdevel/packageB
 ```
 
-which seemed "backward". Writing the logic and adding explicit variables helped clarify the formatting and make it easier to follow.
+which seemed "backward". Writing the parsing logic and adding explicit variables helped clarify the formatting and make it easier to follow.
 
 For counting, I used `Counter` because it performs as well as a hash table but it's easier to use and read, especially coming back to it months later.
 
-For printing, I used `most_common` to get the 10 top packages (optionally accepting a different number) and `enumerate` to go over those and print each one. I added a ~~hacky fix~~ heuristic solution with f-strings to format columns neatly.
+For printing, I used `most_common` to get the top 10 packages (optionally accepting a different number) and `enumerate` to loop through and print each one. I added a utility function using running maximums and used those values with f-strings to print results with columns aligned.
 
 For parsing arguments, I used `argparse` because it handles basic validation and shows accepted arguments on usage.
 
-For main functionality, I wrapped everything in `main()` and then called that at the end.
+For main functionality, I wrapped everything in a `main()` function and called it at the end.
 
-For testing, I didn't go crazy with edge cases, just tested the things I wanted to make sure would work as expected, namely the parsing of `Contents`, getting accurate numbers, and handling malformatted lines.
+For testing, I used `pytest` to mock the `Contents` and shorten the testing cycle. I admittedly didn't go crazy on networking edge cases, I instead focused on the areas I wanted to ensure worked correctly, namely the parsing, counting, and handling of malformatted lines.
 
 This documentation was, by far, the hardest part of the project. I'm okay with code, testing, and documentation in general, but framing my thoughts explicitly was new and I'm especially terrified of doing it all "wrong." I tried to "think out loud" and translate that into written form, I hope the result conveys the what and why effectively. 🤞🙏
 
