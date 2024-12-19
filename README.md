@@ -49,8 +49,6 @@ For main functionality, I wrapped everything in a `main()` function and called i
 
 For testing, I used `pytest` to mock the `Contents` structure, which helped shorten the dev/test cycle. I didn't write tests for networking, as in my experience, the Debian repo is fairly stable, so I didn't want to write tests just for sake of coverage. I focused on the areas I had issues, namely the parsing and counting.
 
-For testing, I used `pytest` to mock the `Contents` structure, which helped speed up the development and test cycle. I didn't write tests for networking, as the Debian repo IME is generally stable, so I didn't want to add tests just for coverage. Instead, I focused on the areas where I encountered issues, specifically parsing and counting.
-
 Total time: ~~6~~ 7 hours.
 
 ## Obstacles
