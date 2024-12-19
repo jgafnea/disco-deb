@@ -41,9 +41,21 @@ def get_counts(contents: str) -> Counter:
 def show_top(counts: Counter, number: int = 10) -> None:
     """Show top packages by file count."""
     top = counts.most_common(number)
+
+    def get_maxes() -> tuple:
+        """Use running maxes to find longest column widths(`len`)."""
+        package_len, count_len = 0, 0
+        for package, count in top:
+            package_len = max(package_len, len(package))
+            count_len = max(count_len, len(str(count)))
+        return package_len, count_len
+        
+    package_len, count_len = get_maxes()
+
     for i, (package, count) in enumerate(top, start=1):
-        # Hacky solution to align columns with hardcoded widths.
-        print(f"{i:02d}. {package:<30}{count:>10}")
+        # Print column widths using maxes found above.
+        print(f"{i:02d}. {package:<{package_len}}{count:>{count_len}}")
+
 
 
 def main() -> None:
