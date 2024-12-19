@@ -47,20 +47,30 @@ For parsing arguments, I used `argparse` because it handles basic validation and
 
 For main functionality, I wrapped everything in a `main()` function and called it at the end.
 
-For testing, I used `pytest` to mock the `Contents` file structure and shorten the dev/test cycle. I admittedly didn't do any written tests for networking, mainly because the debian repo, in my experience, is rather stable, so I instead focused on the issues I actually had, namely the parsing and counting.
+For testing, I used `pytest` to mock the `Contents` structure, which helped shorten the dev/test cycle. I didn't write tests for networking, as in my experience, the Debian repo is fairly stable, so I didn't want to write tests just for sake of coverage. I focused on the areas I had issues, namely the parsing and counting.
 
-Two things that were prob "harder" than they should be:
+For testing, I used `pytest` to mock the `Contents` structure, which helped speed up the development and test cycle. I didn't write tests for networking, as the Debian repo IME is generally stable, so I didn't want to add tests just for coverage. Instead, I focused on the areas where I encountered issues, specifically parsing and counting.
 
-1. Mentally parsing lines like the following:
+Total time: ~~6~~ 7 hours.
 
+## Obstacles
+
+Things that were harder than they prob should have been:
+
+#### Mentally parsing items
+   
 ```
 bin/file libdevel/packageA,libdevel/packageB
 ```
+For whatever reason I kept getting files and packages backwards and ending up with wrong totals. Writing out the parsing logic and adding variables made the format much easier to follow.
 
-For whatever reason I kept thinking backwards and getting numbers wrong. Writing out the parsing logic and adding variables made the format easier to follow.
+#### Naming things
 
-2. Naming things when there's ambiguity, like [in the fetching function](./assets/contents.png). What I normally do is renaming something like `contents_` to essentially point out that _this_ is the important thing, and in this example, that meant the thing being returned. I'm not sure if this is a good practice, but it's something I picked up somewhere along the way.
+This is especially hard when there's ambiguity, like [in the fetching function](./assets/contents.png). Normally I'll rename something like `contents_` to point out that _this_ is the key element, and in this case, that meant the value being returned. I don't know if that's a good or bad practice, but it's something I picked up somewhere.
+
+#### Documentation
 
 This documentation was, by far, the hardest part of the project. I'm okay with code, testing, and documentation in general, but framing my thoughts explicitly was new and I'm especially terrified of doing it all "wrong." I tried to "think out loud" and translate that into written form, I hope the result conveys the what and why effectively. 🤞🙏
 
-Total time was 6 hours.
+
+
