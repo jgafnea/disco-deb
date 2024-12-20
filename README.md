@@ -47,13 +47,13 @@ For parsing arguments, I used `argparse` because it handles basic validation and
 
 For main functionality, I wrapped everything in `main()` and called it at the end.
 
-For testing, I used `pytest` because it does everything `unittest` does with much less work. I focused on areas where I had actual issues, namely the parsing and counting, rather than writing tests just for the sake of coverage.
+For testing, I used `pytest` because it does everything `unittest` does with much less effort. I started out focusing on where I had real issues, specifically the parsing and counting, rather than writing tests just for coverage. Then I got up to 80-something% and figured I'd just go ahead and finish. `Mock` and `patch` helped a lot.
 
-Total time: ~~6~~ 7 hours.
+Total time: ~~678~~ 9 hours.
 
 ## Obstacles
 
-Things that were harder than they prob should have been:
+Things that were harder or took longer:
 
 #### Mentally parsing items
    
@@ -64,7 +64,11 @@ For whatever reason I kept getting files and packages backwards and ending up wi
 
 #### Naming things
 
-This is especially hard when there's ambiguity, like [in the fetching function](./assets/contents.png). Normally I'll rename something like `contents_` to point out that _this_ is the key element, and in this case, that meant the value being returned. I don't know if that's a good or bad practice, but it's something I picked up somewhere.
+Especially hard when there's ambiguity, like [in the fetching function](./assets/contents.png). Normally I'll rename something like `contents_` to point out that _this_ is the key element, and in this case, that meant the value being returned. I don't know if that's generally a good or bad idea, but it's something I picked up somewhere.
+
+#### Testing unhappy paths
+
+I forgot how tedious Mocking and network testing can be. Next time, I'll just test on live servers and wait for the 429. 🤡
 
 #### Documentation
 
