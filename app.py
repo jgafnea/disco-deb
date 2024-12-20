@@ -5,10 +5,11 @@ from typing import Optional
 
 import requests
 
+BASE_URL = "https://deb.debian.org/debian/dists/stable/main"
+
 
 def get_contents(arch: str) -> Optional[str]:
     """Get the contents for the specified architecture."""
-    BASE_URL = "https://deb.debian.org/debian/dists/stable/main"
 
     url = f"{BASE_URL}/Contents-{arch}.gz"
 
