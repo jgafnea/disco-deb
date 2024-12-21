@@ -7,7 +7,18 @@ import requests
 
 from app import BASE_URL, get_contents, get_counts, show_top
 
-# First are tests for the happy path.
+
+@pytest.fixture
+def mock_contents():
+    return """
+bin/file1 packageA
+bin/file2 packageA,packageB
+bin/file3 packageA,packageB,packageC
+MALFORMED/FILE/PACKAGE
+"""
+
+
+# Happy paths with 200 responses:
 
 
 @patch("requests.get")
@@ -20,21 +31,11 @@ def test_get_contents_200(mock_get):
     mock_response.content = gzip.compress(b"valid contents")
     mock_get.return_value = mock_response
 
-    # Call real function and check the results.
+    # Call TUF and check results.
     actual = get_contents("amd64")
     expected = "valid contents"
     assert actual == expected
     mock_get.assert_called_once_with(f"{BASE_URL}/Contents-amd64.gz")
-
-
-@pytest.fixture
-def mock_contents():
-    return """
-bin/file1 packageA
-bin/file2 packageA,packageB
-bin/file3 packageA,packageB,packageC
-MALFORMED/FILE/PACKAGE
-"""
 
 
 def test_get_counts_200(mock_contents):
@@ -53,7 +54,7 @@ def test_show_top_200(mock_contents, capsys):
     assert "" in captured.err
 
 
-# Below are tests for the edge cases.
+# Unhappy paths with 404 responses:
 
 
 @patch("requests.get")
