@@ -31,48 +31,36 @@ python app.py arm64
 
 ## Journal
 
-I chose Python because it's normally what I use once tasks become too much for shell scripts.
+I chose Python because it's normally what I use once tasks become too much for shell scripts. I began by breaking the project into three functions, each performing one of the tasks described in the instructions: fetching, parsing, and output. 
 
-I started by breaking the project down into three functions, each performing one of the tasks described in the instructions: fetching, parsing, and output.
+For fetching, I used `requests` because it generally makes HTTP things easier. I downloaded, decompressed, and decoded the response object working in memory. Performance was fine given the small file sizes, but for larger files, it'd make sense to either download the file to disk or process the response in chunks with streaming.
 
-For fetching, I used `requests` because it generally makes HTTP things easier. Work is done in memory and performs well given the small file sizes. For significantly larger files, this is something that would need to be adjusted, possibly with streaming, to process data in chunks.
+For parsing, I used a series of splits to break the contents down into lines and then into pairs of filenames and associated packages. For counting, I used `Counter` because it performs as well as a hash table while being easier to understand and work with.
 
-For parsing, I used a series of splits (`splitlines`, `rsplit`, and `split`) to break the contents down into lines and then into collections of files and associated packages.
+For output, I used `most_common` to get the top N packages (N being 10 by default) and `enumerate` to loop through and print each one. I added a utility function using running maximums to get the max lengths of the package names and file counts and used those values with f-strings to print results with columns neatly aligned.
 
-For counting, I used `Counter` because it performs as well as hash tables and it's a lot easier to use and understand, especially coming back to something months later.
+For the main functionality, I used `argparse` to perform basic validation and print usage information on error. I wrapped everything in `main()` and called it at the end.
 
-For printing, I used `most_common` to get the top 10 packages (optionally accepting a different number) and `enumerate` to loop through and print each one. I added a utility function using running maximums and used those values with f-strings to print results with columns aligned.
+For testing, I used `pytest` because it does for `unittest` what `requests` does for `http.client`, namely making it more user-friendly with less boilerplate to write.
 
-For parsing arguments, I used `argparse` because it handles basic validation and shows accepted arguments on usage. Not the prettiest CLI, but it works.
-
-For main functionality, I wrapped everything in `main()` and called it at the end.
-
-For testing, I used `pytest` because it does everything `unittest` does with much less effort. I started out focusing on where I had real issues, specifically the parsing and counting, rather than writing tests just for coverage. Then I got up to 80-something% and figured I'd just go ahead and finish. `Mock` and `patch` helped a lot.
-
-Total time: ~~678~~ 9 hours.
+Total time: 6 hours.
 
 ## Obstacles
 
 Things that were harder or took longer:
 
-#### Mentally parsing items
+#### Cognition
    
-```
-bin/file libdevel/packageA,libdevel/packageB
-```
-For whatever reason I kept getting files and packages backwards and ending up with wrong totals. Writing out the parsing logic and adding variables made the format much easier to follow.
+I kept getting files and packages mixed up. Writing out the parsing logic with explicit variable names helped it make sense.
 
-#### Naming things
+#### Naming
 
-Especially hard when there's ambiguity, like [in the fetching function](./assets/contents.png). Normally I'll rename something like `contents_` to point out that _this_ is the key element, and in this case, that meant the value being returned. I don't know if that's generally a good or bad idea, but it's something I picked up somewhere.
+It's especially hard when there's name ambiguity, like [in the fetching function](./assets/contents.png).
 
-#### Testing unhappy paths
+#### Testing
 
-I forgot how tedious Mocking and network testing can be. Next time, I'll just test on live servers and wait for the 429. 🤡
+I forgot what a chore testing network resources can be. `Mock` and `patch` helped a lot. 
 
 #### Documentation
 
 This documentation was, by far, the hardest part of the project. I'm okay with code, testing, and documentation in general, but framing my thoughts explicitly was new and I'm especially terrified of doing it all "wrong." I tried to "think out loud" and translate that into written form, I hope the result conveys the what and why effectively. 🤞🙏
-
-
-
