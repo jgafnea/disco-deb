@@ -5,17 +5,11 @@ Project showing the top 10 packages (based on the number of associated files) fr
 ## Usage
 
 1. Clone the project, cd into the directory
-2. Create venv, activate it, install deps
-3. Run `python app.py arm64` (or another architecture)
+2. Run `make amd64` (or another architecture)
 
 ```sh
 git clone https://github.com/jgafnea/disco-deb && cd disco-deb
-
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-python app.py arm64
+make amd64
 
 01. devel/piglit                53007
 02. science/esys-particle       18408
