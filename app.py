@@ -27,6 +27,7 @@ def get_contents(arch: str) -> Optional[str]:
 
 def get_counts(contents: Optional[str]) -> Counter:
     """Count the number of files associated with each package."""
+
     counts = Counter()
 
     if contents is None:
@@ -48,6 +49,7 @@ def get_counts(contents: Optional[str]) -> Counter:
 
 def show_top(counts: Counter, number: int = 10) -> None:
     """Show the top N packages with the most associated files."""
+
     top = counts.most_common(number)
 
     def get_widths() -> tuple:
