@@ -25,36 +25,20 @@ make amd64
 
 ## Journal
 
-I chose Python because it's normally what I use once tasks become too much for shell scripts. I began by breaking the project into three functions, each performing one of the tasks described in the instructions: fetching, parsing, and output. 
+I chose Python for its readability, familiarity, and extensive library of tools. I began by breaking the project into three functions, each performing one of the tasks described in the instructions: fetching, parsing, and formatting. 
 
-For fetching, I used `requests` because it generally makes HTTP things easier. I downloaded, decompressed, and decoded the response object working in memory. Performance was fine given the small file sizes, but for larger files, it'd make sense to either download the file to disk or process the response in chunks with streaming.
+For fetching, I used `requests` to simplify the request and error handling. I downloaded, decompressed, and decoded the response object working in memory. Performance was fine given the smaller file sizes, but for handling larger files, it'd be necessary at some point to implement streaming to process the response in chunks to avoid memory issues.
 
-For parsing, I used a series of splits to break the contents down into lines and then into pairs of filenames and associated packages. For counting, I used `Counter` because it performs as well as a hash table while being easier to understand and work with.
+For parsing, I used a series of splits to break the contents down into lines and then into pairs of filenames and associated packages. For counting, I used `Counter` for its performance and ease of use compared to a DIY hash table.
 
-For output, I used `most_common` to get the top N packages (N being 10 by default) and `enumerate` to loop through and print each one. I added a utility function using running maximums to get the max lengths of the package names and file counts and used those values with f-strings to print results with columns neatly aligned.
+For output, I used `most_common` to get the top N packages and `enumerate` to loop through and print each one. I added a utility function using running maximums to get the max widths of the columns and used those values with f-strings to print results with columns neatly aligned.
 
 For the main functionality, I used `argparse` to perform basic validation and print usage information on error. I wrapped everything in `main()` and called it at the end.
-
-For testing, I used `pytest` because it does for `unittest` what `requests` does for `http.client`, namely making it more user-friendly with less boilerplate to write.
 
 Total time: 6 hours.
 
 ## Obstacles
 
-Things that were harder or took longer:
+This documentation was, by far, the most challenging part of the project. I'm okay with documentation in general, but explicitly expressing my thoughts is something new. Also the term "Final Report" seems widely used, but lacks a standardized (or even standard-ish) structure, which added to the challenge. The existing guides I could find were often contradictory, offering conflicting advice on how to write and format everything.
 
-#### Cognition
-   
-I kept getting files and packages mixed up. Writing out the parsing logic with explicit variable names helped it make sense.
-
-#### Naming
-
-It's especially hard when there's name ambiguity, like [in the fetching function](./assets/contents.png).
-
-#### Testing
-
-I forgot what a chore testing network resources can be. `Mock` and `patch` helped a lot. 
-
-#### Documentation
-
-This documentation was, by far, the hardest part of the project. I'm okay with code, testing, and documentation in general, but framing my thoughts explicitly was new and I'm especially terrified of doing it all "wrong." I tried to "think out loud" and translate that into written form, I hope the result conveys the what and why effectively. 🤞🙏
+Other issues were relatively small in comparison. The Debian Wiki contained some outdated information about the Contents file, which initially led to confusion until I realized it was no longer accurate. Additionally, setting up network mocking and testing proved to be more time-consuming than I had anticipated.
