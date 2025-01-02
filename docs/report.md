@@ -1,13 +1,13 @@
-## Task
+# Project
 
 > The project has two parts: Tooling and Documentation.
 >
 > **The Tooling**:
 >
-> The first half of the project is writing a program. It should fetch the
+> The first half of the project is writing a program. It should **fetch** the
 > relevant [“Contents” index](https://wiki.debian.org/DebianRepository/Format#A.22Contents.22_indices) from a Debian mirror for the particular
-> architecture (e.g. arm64) passed as an argument, and then it must parse the
-> file and output the 10 packages with the most associations and what the total
+> architecture (e.g. arm64) passed as an argument, and then it must **parse** the
+> file and **output** the 10 packages with the most associations and what the total
 > count is.
 >
 > An example invocation could be:
@@ -34,49 +34,24 @@
 > done, cover the technical decisions made, recount any obstacles, outline
 > limitations discovered, etc.
 
+# Report
+
 ## Journal
 
-I chose Python because its readable, familiar, and has everything needed for
-the task. The project reminded me of an ETL process so I began by creating a
-sequence of utility functions to perform the actions described:
+I chose Python because it's easy to use (both writing and reading it) and has everything needed for the task. I tried first using only the standard library, wary of the complexities that might come with adding a virtual environment and dependencies, but I later changed my mind, knowing my audience is technically savvy and could likely handle whatever issues might come up. I used Make to (hopefully) simplify the setup process.
 
-```mermaid
-flowchart LR
-id[(Contents.gz)] -- fetch --> contents
-contents -- parse --> counts
-counts -- show --> output
-```
+The description reminded me of an ETL process, so I began by creating utility functions to perform the actions described.
 
-For fetching, I used `requests` because it's generally faster and easier than
-using `urlib.request`. I did everything in memory and performance was fine given the small file size, but streaming (i.e., processing in chunks) would be needed to avoid issues handling larger files.
+For fetching, I used `argparse` to handle basic input validation and `requests` to get the corresponding file. Given the small file size, I handled everything in memory, but for larger files, streaming  would become necessary at some point to avoid performance issues.
 
-For parsing, I used a series of splits to break the object down into lines and
-then into collections of files and packages, with each file being associated
-with one or more packages. For counting, I used `collections.Counter` because
-it performs as well (sometimes better) than a hash table and its easier to work
-with.
+For parsing, I used a series of splits to break the contents down into lines and then into collections of files, each linked to one or more associated packages. For counting, I used `Counter` to count each file, incrementing the count for each associated package.
 
-For output, I used `most_common` to get the top N results (default=10) and
-`enumerate` to loop through and print each one. I added a utility function
-using running maximums to get the max widths for each column and used those
-values with f-strings to print the results with columns aligned.
-
-For main functionality I used `argparse` to handle basic validation and print
-"usage" information on error. I wrapped everything in a main function and
-called it at the end.
+For output, I used `most_common` to get the top packages and `enumerate` to loop through and print each one. I created a utility function using running maximums to get the max widths (character lengths) for both the package names and the file counts and used those values with f-strings to print the results with columns aligned, like those shown in the example invocation.
 
 Total time: 6 hours.
 
 ## Obstacles
 
-The documentation was by far the biggest obstacle. I'm okay with writing
-documentation in general, but explicitly stating my decision-making process is
-something new and I'm admittedly anxious about doing it all "right". Formatting
-was another issue. The term "final report" seems to be a widely used term but
-there doesn't seem to be any standard-ish way of doing it. The guides I could
-find offered essentially conflicting information about both the writing itself
-and the formatting.
+The documentation was by far the biggest challenge. I'm okay with writing documentation in general, but explicitly stating my decision-making process is something new, and given the context, I'm pretty anxious about getting it all "right". Formatting was another similar issue. The term "final report" seems to be widely used, but there doesn't seem to be any standard-ish way of doing it. The guides I _could_ find offered essentially conflicting information on both the writing and formatting.
 
-Other issues were small by comparison. Mocking and testing network resources
-took longer than expected. The Debian wiki also had some misleading information
-about the Contents format, which threw me off until realizing it was outdated.
+Other issues were small by comparison. The Debian wiki had obsolete information about the file format, which initially caused confusion until I realized it was simply outdated. Mocking and testing network resources also took longer than expected.
