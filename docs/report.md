@@ -42,6 +42,17 @@ I chose Python because it's easy to use (both writing and reading it) and has ev
 
 The description reminded me of an ETL process, so I began by creating utility functions to perform the actions described.
 
+```mermaid
+flowchart LR
+    input[/''amd64''/] --> fetch([fetch])
+    fetch --> contents[[contents]]
+    contents --> parse([parse])
+    parse --> counts[[counts]]
+    counts --> show([show])
+    show --> output(((output)))
+```
+
+
 For fetching, I used `argparse` to handle basic input validation and `requests` to get the corresponding file. Given the small file size, I handled everything in memory, but for larger files, streaming  would become necessary at some point to avoid performance issues.
 
 For parsing, I used a series of splits to break the contents down into lines and then into collections of files, each linked to one or more associated packages. For counting, I used `Counter` to count each file, incrementing the count for each associated package.
