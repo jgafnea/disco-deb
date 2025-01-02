@@ -2,7 +2,7 @@
 
 ![Tests](https://github.com/jgafnea/disco-deb/actions/workflows/python.yml/badge.svg)
 
-Project showing the top 10 packages (based on the number of associated files) from a Debian repo.
+Get the top 10 packages from a Debian repo (ranked by the number of associated files)
 
 ## Usage
 
@@ -27,4 +27,4 @@ make amd64
 
 ## Reportage
 
-Moved [here](/docs/report.md).
+Moved [here](/docs/report.md)
