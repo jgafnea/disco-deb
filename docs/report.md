@@ -6,7 +6,7 @@
 >
 > The first half of the project is writing a program. It should **fetch** the
 > relevant [“Contents” index](https://wiki.debian.org/DebianRepository/Format#A.22Contents.22_indices) from a Debian mirror for the particular
-> architecture (e.g. arm64) passed as an argument, and then it must **parse** the
+> architecture (e.g. amd64) passed as an argument, and then it must **parse** the
 > file and **output** the 10 packages with the most associations and what the total
 > count is.
 >
